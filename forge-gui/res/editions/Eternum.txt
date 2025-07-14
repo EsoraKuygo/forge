@@ -1,0 +1,32 @@
+[metadata]
+Code=ETE
+Date=2025-07-12
+Name=Eternum
+Type=Expansion
+
+
+[cards]
+1 M Annie Winters, Spellweaver @caribdis
+2 C Strawberry Pyjamas @caribdis
+3 C Kitty @caribdis
+4 R Pluto @caribdis
+5 U Stand Up @caribdis
+6 C Take the leap of fate @caribdis
+7 U Stinking Egg @caribdis
+8 C One with the shadow  @caribdis
+9 C Guess what's inside ! @caribdis
+10 C Extra spicy @caribdis
+11 C Double Visions @caribdis
+12 U Unexpected Kiss @caribdis
+13 U Blinding Judgment @caribdis
+14 R Calypso, Outraged Royalty @caribdis
+15 R Magical Interference @caribdis
+16 U Proffesor Abbott @caribdis
+17 U Stunning Fear @caribdis
+18 U Silent Aftermath @caribdis
+19 R Andromeda's Cataclysm @caribdis
+20 C Unveil the mystery @caribdis
+21 M Annie and Nova, Detectives @caribdis
+22 C Pleading eyes @caribdis
+23 U Stay Silent @caribdis
+24 C Laser @caribdis

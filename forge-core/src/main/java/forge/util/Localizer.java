@@ -48,20 +48,22 @@ public class Localizer {
 
     public String charset(String value, String charsets[]) {
         String probe = StandardCharsets.UTF_8.name();
-        for(String c : charsets) {
+        for (String c : charsets) {
             Charset charset = Charset.forName(c);
-            if(charset != null) {
+            if (charset != null) {
                 try {
                     if (value.equals(convert(convert(value, charset.name(), probe), probe, charset.name()))) {
                         return c;
                     }
-                } catch(UnsupportedEncodingException ignored) {}
+                } catch (UnsupportedEncodingException ignored) {
+                }
             }
         }
         return StandardCharsets.UTF_8.name();
     }
 
-    public String getMessageorUseDefault(final String key, final String defaultValue, final Object... messageArguments) {
+    public String getMessageorUseDefault(final String key, final String defaultValue,
+            final Object... messageArguments) {
         try {
             silent = true;
             String value = getMessage(key, messageArguments);
@@ -72,19 +74,27 @@ public class Localizer {
             return defaultValue;
         }
     }
+
     public String getEnglishMessage(final String key, final Object... messageArguments) {
         return getMessage(true, key, messageArguments);
     }
-    //FIXME: localizer should return default value from english locale or it will crash some GUI element like the NewGameMenu->NewGameScreen Popup when returned null...
+
+    // FIXME: localizer should return default value from english locale or it will
+    // crash some GUI element like the NewGameMenu->NewGameScreen Popup when
+    // returned null...
     public String getMessage(final String key, final Object... messageArguments) {
         return getMessage(false, key, messageArguments);
     }
+
     public String getMessage(boolean forcedEnglish, final String key, final Object... messageArguments) {
         MessageFormat formatter = null;
 
         try {
-            //formatter = new MessageFormat(resourceBundle.getString(key.toLowerCase()), locale);
-            formatter = new MessageFormat(english || forcedEnglish ? englishBundle.getString(key) : resourceBundle.getString(key), english || forcedEnglish ? Locale.ENGLISH : locale);
+            // formatter = new MessageFormat(resourceBundle.getString(key.toLowerCase()),
+            // locale);
+            formatter = new MessageFormat(
+                    english || forcedEnglish ? englishBundle.getString(key) : resourceBundle.getString(key),
+                    english || forcedEnglish ? Locale.ENGLISH : locale);
         } catch (final IllegalArgumentException | MissingResourceException e) {
             if (!silent)
                 e.printStackTrace();
@@ -115,26 +125,31 @@ public class Localizer {
 
         String formattedMessage = "CHAR ENCODING ERROR";
         final String[] charsets = { "ISO-8859-1", "UTF-8" };
-        //Support non-English-standard characters
-        String detectedCharset = charset(english || forcedEnglish ? englishBundle.getString(key) : resourceBundle.getString(key), charsets);
+        // Support non-English-standard characters
+        String detectedCharset = charset(
+                english || forcedEnglish ? englishBundle.getString(key) : resourceBundle.getString(key), charsets);
 
         final int argLength = messageArguments.length;
         Object[] syncEncodingMessageArguments = new Object[argLength];
-        //when messageArguments encoding not equal resourceBundle.getString(key),convert to equal
-        //avoid convert to a have two encoding content formattedMessage string.
+        // when messageArguments encoding not equal
+        // resourceBundle.getString(key),convert to equal
+        // avoid convert to a have two encoding content formattedMessage string.
         for (int i = 0; i < argLength; i++) {
             String objCharset = charset(messageArguments[i].toString(), charsets);
             try {
                 syncEncodingMessageArguments[i] = convert(messageArguments[i].toString(), objCharset, detectedCharset);
             } catch (UnsupportedEncodingException ignored) {
-                System.err.println("Cannot Convert '" + messageArguments[i].toString() + "' from '" + objCharset + "' To '" + detectedCharset + "'");
+                System.err.println("Cannot Convert '" + messageArguments[i].toString() + "' from '" + objCharset
+                        + "' To '" + detectedCharset + "'");
                 return "encoding '" + key + "' translate string failure";
             }
         }
 
         try {
-            formattedMessage = new String(formatter.format(syncEncodingMessageArguments).getBytes(detectedCharset), StandardCharsets.UTF_8);
-        } catch(UnsupportedEncodingException ignored) {}
+            formattedMessage = new String(formatter.format(syncEncodingMessageArguments).getBytes(detectedCharset),
+                    StandardCharsets.UTF_8);
+        } catch (UnsupportedEncodingException ignored) {
+        }
 
         return formattedMessage;
     }
@@ -145,7 +160,7 @@ public class Localizer {
         Locale oldLocale = locale;
         locale = new Locale(splitLocale[0], splitLocale[1]);
 
-        //Don't reload the language if nothing changed
+        // Don't reload the language if nothing changed
         if (oldLocale == null || !oldLocale.equals(locale)) {
 
             File file = new File(languagesDirectory);
@@ -160,10 +175,11 @@ public class Localizer {
             ClassLoader loader = new URLClassLoader(urls);
 
             try {
-                resourceBundle = ResourceBundle.getBundle(languageRegionID, new Locale(splitLocale[0], splitLocale[1]), loader);
+                resourceBundle = ResourceBundle.getBundle(languageRegionID, new Locale(splitLocale[0], splitLocale[1]),
+                        loader);
                 englishBundle = ResourceBundle.getBundle("en-US", new Locale("en", "US"), loader);
             } catch (NullPointerException | MissingResourceException e) {
-                //If the language can't be loaded, default to US English
+                // If the language can't be loaded, default to US English
                 resourceBundle = ResourceBundle.getBundle("en-US", new Locale("en_US"), loader);
                 e.printStackTrace();
             }
@@ -176,7 +192,7 @@ public class Localizer {
     }
 
     public List<Language> getLanguages() {
-        //TODO List all languages by getting their files
+        // TODO List all languages by getting their files
         return null;
     }
 

@@ -38,3 +38,4 @@ Name:Non-Block Sets|Sets:IKO, THB, ELD, WAR, RNA, GRN, DOM, HML, FEM, DRK, LEG, 
 Name:Tarkir|Sets:KTK, FRF, DTK
 Name:Alara|Sets:ALA, CFX, ARB
 Name:Kaldheim: The Battle for Kaldheim|Dir:2021-01 Kaldheim|Sets:KHM
+Name:Eternum|Sets:ETE
